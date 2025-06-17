@@ -1,29 +1,21 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM('* * * * *')
-    }
-
     environment {
-        VENV_DIR = 'venv'
+        IMAGE_NAME = 'fastapi-app:latest'
+        CONTAINER_NAME = 'fastapi-app-container'
     }
 
     stages {
-        stage('Setup Python') {
+        stage('Build Docker Image') {
             steps {
-                sh 'python3 -m venv $VENV_DIR'
-                sh '. $VENV_DIR/bin/activate && pip install --upgrade pip'
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
-        stage('Install Dependencies') {
+        stage('Run Docker Container') {
             steps {
-                sh '. $VENV_DIR/bin/activate && pip install -r requirements.txt'
-            }
-        }
-        stage('Run FastAPI App') {
-            steps {
-                sh 'nohup $VENV_DIR/bin/uvicorn main:app --host 0.0.0.0 --port 8000 &'  // Run in background
+                sh 'docker rm -f $CONTAINER_NAME || true'
+                sh 'docker run -d --name $CONTAINER_NAME -p 8000:8000 $IMAGE_NAME'
             }
         }
     }
