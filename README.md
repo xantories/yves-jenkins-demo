@@ -65,27 +65,23 @@ This project includes a `Jenkinsfile` for automated deployment:
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'my-super-api:latest'
-        CONTAINER_NAME = 'my-super-api-container'
-    }
-
     stages {
+      
+      // 1. Build the docker image on the server
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'docker build -t fastapi-image.'
             }
         }
         
+        // 2. Delete the old container and deploy a new one
         stage('Run Docker Container') {
             steps {
-                # Delete the previously deployed container
-                sh 'docker rm -f $CONTAINER_NAME || true'
-                # Redeploy the new container
-                sh 'docker run -d --name $CONTAINER_NAME -p 8081:8081 $IMAGE_NAME'
+                sh 'docker rm -f fastapi-app-container || true'
+                sh 'docker run -d --name fastapi-app-container -p 8081:8081 fastapi-image'
             }
         }
-        
+    
     }
 }
 ```
@@ -119,6 +115,7 @@ pipeline {
 4. **Access the app:**
    - [http://localhost:8000/](http://localhost:8000/) — Hello World
    - [http://localhost:8000/user/YourName](http://localhost:8000/user/YourName) — Personalized Hello
+   - [http://localhost:8000/docs](http://localhost:8000/docs) — The documentation of your API
 
 ---
 
