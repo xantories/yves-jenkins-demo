@@ -9,6 +9,7 @@ It demonstrates how to build, deploy, and serve a Python [FastAPI](https://fasta
 N
 i
 c
+o
 
 ---
 
