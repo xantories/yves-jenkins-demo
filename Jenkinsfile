@@ -1,32 +1,17 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'fastapi-app:latest'
-        CONTAINER_NAME = 'fastapi-app-container'
-    }
-
     stages {
-        stage('Show user') {
-            steps {
-                sh 'echo $USER'
-            }
-        }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'docker build -t fastapi-image.'
             }
         }
         stage('Run Docker Container') {
             steps {
-                sh 'docker rm -f $CONTAINER_NAME || true'
-                sh 'docker run -d --name $CONTAINER_NAME -p 8081:8081 $IMAGE_NAME'
+                sh 'docker rm -f fastapi-app-container || true'
+                sh 'docker run -d --name fastapi-app-container -p 8081:8081 fastapi-image'
             }
         }
     }
-    post {
-        always {
-            echo 'Pipeline finished.'
-        }
-    }
-} 
+}
