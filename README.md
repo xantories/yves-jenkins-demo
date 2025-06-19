@@ -1,6 +1,6 @@
 # Jekins deployment FastAPI with Docker demo
 
-This is a dead (why? et encore...) simple FastAPI application with [Jenkins](https://www.jenkins.io/) [CI/CD](https://github.com/resources/articles/devops/ci-cd) integration. 
+This is a dead (why? et encore ...) simple FastAPI application with [Jenkins](https://www.jenkins.io/) [CI/CD](https://github.com/resources/articles/devops/ci-cd) integration. 
 
 It demonstrates how to build, deploy, and serve a Python [FastAPI](https://fastapi.tiangolo.com/) app on [Docker](https://www.docker.com/) with automated deployment on every push to the `main` branch.
 
